@@ -20,7 +20,7 @@ app.get('/cards/', (req, res) => {
   const id = req.query.id
   const folderPath = join(__dirname, 'cards', name as string);
   if (!id) { // List the cards
-    readCards(folderPath, (err, response) => {
+    readCards(folderPath, (err, response) => {      
       if (err) {
         res.status(500).send(err);
       } else {

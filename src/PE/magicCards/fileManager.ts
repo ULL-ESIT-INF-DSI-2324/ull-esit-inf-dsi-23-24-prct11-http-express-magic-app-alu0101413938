@@ -134,7 +134,6 @@ export class FileManager {
       readFile(path, {encoding: 'utf-8'}).then((data) => {
         resolve(data);
       }).catch((err) => {
-        console.error(err);
         reject('Path does not exist.');
       })
     })

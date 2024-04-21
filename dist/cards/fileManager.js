@@ -79,7 +79,7 @@ export class FileManager {
         fs.readFile(fullPath, 'utf-8', (err, data) => {
             if (err) {
                 refuse = true;
-                console.error(`Error al mostrar carta coincidentes del archivo. Error: ${err.code}, Operacion: ${err.syscall}`);
+                console.error(`Error al mostrar carta coincidentes del archivo. Path: ${filePath} Error: ${err.code}, Operacion: ${err.syscall}`);
                 callback(refuse, undefined);
             }
             else {
@@ -99,40 +99,49 @@ export class FileManager {
         if (fromExpress)
             directory = filePath;
         let refuse = false;
-        fs.readdir(directory, (err, files) => {
+        fs.access(directory, fs.constants.F_OK, (err) => {
+            console.log(`No hay ruta: ${directory}`);
             if (err) {
                 refuse = true;
-                console.error('Error al leer el directory:', err);
-                callback(refuse, undefined); // Error al leer el directory, se establece refuse en true y no hay cartas
+                callback(refuse, undefined);
             }
-            const cards = [];
-            let alreadyReadedFiles = 0;
-            files.forEach(file => {
-                const rutaArchivo = path.join(directory, file);
-                fs.readFile(rutaArchivo, 'utf8', (err, content) => {
+            else {
+                fs.readdir(directory, (err, files) => {
                     if (err) {
-                        console.error(`Error al leer el file ${rutaArchivo}:`, err);
-                        alreadyReadedFiles++;
-                        if (alreadyReadedFiles === files.length) {
-                            refuse = true;
-                            callback(refuse, undefined); // Error al leer files, se establece refuse en true y no hay cartas
-                        }
-                    }
-                    try {
-                        const data = JSON.parse(content);
-                        cards.push(data);
-                    }
-                    catch (parseError) {
                         refuse = true;
-                        console.error(`Error al parsear el content del archivo ${rutaArchivo}:`, parseError);
-                        callback(refuse, undefined); // Error al leer files, se establece refuse en true y no hay cartas
+                        console.error('Error al leer el directory:', err);
+                        callback(refuse, undefined); // Error al leer el directory, se establece refuse en true y no hay cartas
                     }
-                    alreadyReadedFiles++;
-                    if (alreadyReadedFiles === files.length) {
-                        callback(refuse, cards); // Todos los files han sido leídos correctamente
-                    }
+                    const cards = [];
+                    let alreadyReadedFiles = 0;
+                    files.forEach(file => {
+                        const rutaArchivo = path.join(directory, file);
+                        fs.readFile(rutaArchivo, 'utf8', (err, content) => {
+                            if (err) {
+                                console.error(`Error al leer el file ${rutaArchivo}:`, err);
+                                alreadyReadedFiles++;
+                                if (alreadyReadedFiles === files.length) {
+                                    refuse = true;
+                                    callback(refuse, undefined); // Error al leer files, se establece refuse en true y no hay cartas
+                                }
+                            }
+                            try {
+                                const data = JSON.parse(content);
+                                cards.push(data);
+                            }
+                            catch (parseError) {
+                                refuse = true;
+                                console.error(`Error al parsear el content del archivo ${rutaArchivo}:`, parseError);
+                                callback(refuse, undefined); // Error al leer files, se establece refuse en true y no hay cartas
+                            }
+                            alreadyReadedFiles++;
+                            if (alreadyReadedFiles === files.length) {
+                                callback(refuse, cards); // Todos los files han sido leídos correctamente
+                            }
+                        });
+                    });
                 });
-            });
+            }
         });
     }
     pathExist(path, callback) {

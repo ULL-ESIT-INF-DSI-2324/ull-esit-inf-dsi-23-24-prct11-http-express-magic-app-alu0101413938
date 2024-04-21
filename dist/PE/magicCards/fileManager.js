@@ -104,16 +104,6 @@ export class FileManager {
             return err;
         }
     }
-    readPromise = (path) => {
-        return new Promise((resolve, reject) => {
-            readFile(path, { encoding: 'utf-8' }).then((data) => {
-                resolve(data);
-            }).catch((err) => {
-                console.error(err);
-                reject('Path does not exist.');
-            });
-        });
-    };
     async writeAsync(path, cards) {
         try {
             const data = new Uint8Array(Buffer.from(cards.getName()));
@@ -124,4 +114,14 @@ export class FileManager {
             return err;
         }
     }
+    readPromise = (path) => {
+        return new Promise((resolve, reject) => {
+            readFile(path, { encoding: 'utf-8' }).then((data) => {
+                resolve(data);
+            }).catch((err) => {
+                console.error(err);
+                reject('Path does not exist.');
+            });
+        });
+    };
 }

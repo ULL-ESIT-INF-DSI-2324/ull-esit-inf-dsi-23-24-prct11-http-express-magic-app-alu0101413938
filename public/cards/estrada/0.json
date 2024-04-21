@@ -1,0 +1,11 @@
+{
+  "cardOwner": "estrada",
+  "id": 2,
+  "name": "beta",
+  "mana": 10,
+  "color": "green",
+  "line": "earth",
+  "rarity": "mythical",
+  "rules": "none",
+  "price": 999
+}

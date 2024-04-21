@@ -34,6 +34,6 @@ export declare class FileManager {
      */
     write: (filePath: string, cards: Card[], callback: (err: string | undefined, data: string | undefined) => void) => void;
     readAsync(path: string): Promise<string | undefined>;
-    readPromise: (path: string) => Promise<string | undefined>;
     writeAsync(path: string, cards: Card): Promise<string | undefined>;
+    readPromise: (path: string) => Promise<string | undefined>;
 }

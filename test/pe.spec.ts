@@ -1,10 +1,10 @@
 import 'mocha';
 import {expect} from 'chai';
-import { FileManager } from '../src/magicCards/fileManager.js'
-import { Color } from '../src/magicCards/enums/color.js';
-import { Line } from '../src/magicCards/enums/line.js';
-import { Rarity } from '../src/magicCards/enums/rarity.js';
-import { Card } from '../src/magicCards/card.js';
+import { FileManager } from '../src/PE/magicCards/fileManager.js'
+import { Color } from '../src/PE/magicCards/enums/color.js';
+import { Line } from '../src/PE/magicCards/enums/line.js';
+import { Rarity } from '../src/PE/magicCards/enums/rarity.js';
+import { Card } from '../src/PE/magicCards/card.js';
 
 describe('Asynchronous functions from magic cards', () => {
   it('Async Cuando se lee un archivo correctamente no deberia dar ningun problema', () => {
