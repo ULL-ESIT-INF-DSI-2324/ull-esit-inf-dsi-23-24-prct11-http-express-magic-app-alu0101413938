@@ -11,7 +11,7 @@ Desde la adición hasta la eliminación o modificación de cartas, el servidor p
 ## Servidor
 El servidor es el encargado de gestionar las peticiones que recibe por parte del cliente. Para ello utilizaremos diferentes metodos entre ellos: GET, POST, DELETE y PATCH, que nos permitiran procesar las peticiones realizadas.
 
-```ts
+```typescript
 app.get('/cards/', (req, res) => {
   const name = req.query.name;
   const id = req.query.id
@@ -82,7 +82,7 @@ app.patch('/cards/', (req, res) => {
 Dado que el servidor es solo el encargado de procesar la informacion hemos dividido las diferentes funcionalidades en archivos diferentes segun su proposito: DELETE, READ, LIST, UPDATE y WRITE
 
 1. DELETE
-```ts
+```typescript
 export function deleteCard(filePath :string, id :number, callback :(err :string  | undefined, res :ResponseTypeCard | undefined) => void) {
   FileManager.Instance().removeFromFile(filePath, id, true, (_refuse) => {
     if (_refuse) {
@@ -99,7 +99,7 @@ export function deleteCard(filePath :string, id :number, callback :(err :string 
 ```
 
 2. READ
-```ts
+```typescript
 export function readCard(folderPath :string, id :number, callback :(err :string | undefined, res :ResponseTypeCard | undefined) => void) :void {
   FileManager.Instance().readFile(folderPath, id, true, (_refuse, _card) => {
     if (_refuse) {
@@ -114,11 +114,10 @@ export function readCard(folderPath :string, id :number, callback :(err :string 
     }
   })
 }
-
 ```
 
 3. LIST
-```ts
+```typescript
 export function readCards(folderPath :string, callback :(err :string | undefined, res :ResponseTypeCard | undefined) => void) :void {
   FileManager.Instance().readMultipleFiles(folderPath, true, (_refuse, _cards) => {
     if (_refuse) {
@@ -133,11 +132,10 @@ export function readCards(folderPath :string, callback :(err :string | undefined
     }
   })
 }
-
 ```
 
 4. UPDATE
-```ts
+```typescript
 export function updateCard(folderPath :string, card :CardData, callback :(err :string | undefined, res :ResponseTypeCard | undefined) => void) :void {
   FileManager.Instance().updateFile(folderPath, card, true, (_refuse) => {
     if (_refuse) {
@@ -151,11 +149,10 @@ export function updateCard(folderPath :string, card :CardData, callback :(err :s
     }
   })
 }
-
 ```
 
 5. WRITE
-```ts
+```typescript
 export function writeCard(filePath :string, card :CardData, callback :(err :string | undefined, res :ResponseTypeCard | undefined) => void) {
   FileManager.Instance().writeOnFile(filePath, true, card, (_refuse :boolean) => {
     if (_refuse) {
@@ -182,7 +179,7 @@ La aplicacion cuenta con diferentes funcionalidades:
 
 ## Modificacion realizada en la PE
 Se ha solicitado modificar los metodos de la practica anterior para utilizar los metodos Asynchronous del modulo 'fs' haciendo uso de promesas.
-```ts
+```typescript
 readPromise = (path :string) => { 
   return new Promise<string | undefined>((resolve, reject) => {
     readFile(path, {encoding: 'utf-8'}).then((data) => {
