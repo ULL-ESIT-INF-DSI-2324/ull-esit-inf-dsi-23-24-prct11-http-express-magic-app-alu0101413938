@@ -1,6 +1,6 @@
 import 'mocha';
 import { assert } from 'chai';
-import request, { post } from 'request'
+import request from 'request'
 import { CardData } from '../src/cards/card.js';
 import { Color } from '../src/cards/enums/color.js';
 import { Line } from '../src/cards/enums/line.js';
