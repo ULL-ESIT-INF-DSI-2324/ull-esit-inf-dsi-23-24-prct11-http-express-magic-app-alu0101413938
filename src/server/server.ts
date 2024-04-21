@@ -1,7 +1,8 @@
 import express from 'express';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
+// import fs from 'fs';
+// import { readCards } from './utils/readCards.js';
 import { readCards } from './utils/readCards.js';
 import { CardData } from '../cards/card.js';
 import { writeCard } from './utils/writeCard.js';
