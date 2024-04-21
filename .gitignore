@@ -1,4 +1,4 @@
-node_modules
 dist
+.gitignore
 .nyc_output
-.coveralls.yml
+node_modules
