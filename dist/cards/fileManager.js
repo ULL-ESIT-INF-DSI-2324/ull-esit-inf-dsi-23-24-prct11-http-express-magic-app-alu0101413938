@@ -10,9 +10,12 @@ export class FileManager {
         }
         return this.instance;
     }
-    writeOnFile(filePath, card, callback) {
+    writeOnFile(filePath, express, card, callback) {
         let refuse = false;
-        const directory = `database/${filePath.toLocaleLowerCase()}`;
+        let directory = `database/${filePath.toLocaleLowerCase()}`;
+        if (express) {
+            directory = filePath;
+        }
         const fullPath = `${directory}/${card.id}.json`;
         const data = JSON.stringify(card, null, 2);
         this.pathExist(directory, (existPath) => {
@@ -39,9 +42,12 @@ export class FileManager {
             }
         });
     }
-    removeFromFile(filePath, idToRemove, callback) {
+    removeFromFile(filePath, idToRemove, express, callback) {
         let refuse = false;
-        const directory = `database/${filePath.toLocaleLowerCase()}`;
+        let directory = `database/${filePath.toLocaleLowerCase()}`;
+        if (express) {
+            directory = filePath;
+        }
         const fullPath = `${directory}/${idToRemove}.json`;
         fs.unlink(fullPath, (err) => {
             if (err) {
@@ -51,21 +57,24 @@ export class FileManager {
             callback(refuse);
         });
     }
-    updateFile(filePath, card, callback) {
-        this.removeFromFile(filePath, card.id, (refuseRemove) => {
+    updateFile(filePath, card, express, callback) {
+        this.removeFromFile(filePath, card.id, express, (refuseRemove) => {
             if (refuseRemove) {
                 callback(refuseRemove);
             }
             else {
-                this.writeOnFile(filePath, card, (refuseWrite) => {
+                this.writeOnFile(filePath, express, card, (refuseWrite) => {
                     callback(refuseWrite);
                 });
             }
         });
     }
-    readFile(filePath, idToShow, callback) {
+    readFile(filePath, idToShow, express, callback) {
         let refuse = false;
-        const directory = `database/${filePath.toLocaleLowerCase()}`;
+        let directory = `database/${filePath.toLocaleLowerCase()}`;
+        if (express) {
+            directory = filePath;
+        }
         const fullPath = `${directory}/${idToShow}.json`;
         fs.readFile(fullPath, 'utf-8', (err, data) => {
             if (err) {
@@ -85,8 +94,10 @@ export class FileManager {
         });
     }
     // readMultipleFiles(filePath :string, callback :(refuse :boolean, showCards :CardData[] | undefined) => void) :void {
-    readMultipleFiles(filePath, callback) {
-        const directory = `database/${filePath.toLocaleLowerCase()}`;
+    readMultipleFiles(filePath, fromExpress, callback) {
+        let directory = `database/${filePath.toLocaleLowerCase()}`;
+        if (fromExpress)
+            directory = filePath;
         let refuse = false;
         fs.readdir(directory, (err, files) => {
             if (err) {

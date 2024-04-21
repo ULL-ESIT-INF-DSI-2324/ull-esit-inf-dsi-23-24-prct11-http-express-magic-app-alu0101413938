@@ -1,0 +1,11 @@
+{
+  "cardOwner": "depdios",
+  "id": 3,
+  "name": "goblin",
+  "mana": 10,
+  "color": "green",
+  "line": "earth",
+  "rarity": "mythical",
+  "rules": "none",
+  "price": 999
+}

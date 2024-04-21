@@ -118,6 +118,16 @@ export class FileManager {
       return err;
     }
   }
+  
+  async writeAsync(path :string, cards :Card) :Promise<string | undefined> {
+    try {
+      const data = new Uint8Array(Buffer.from(cards.getName()))
+      await writeFile(path, data);      
+      return this.readAsync(path);
+    } catch (err) {
+      return err;
+    }
+  }
 
   readPromise = (path :string) => { 
     return new Promise<string | undefined>((resolve, reject) => {
@@ -128,16 +138,6 @@ export class FileManager {
         reject('Path does not exist.');
       })
     })
-  }
-
-  async writeAsync(path :string, cards :Card) :Promise<string | undefined> {
-    try {
-      const data = new Uint8Array(Buffer.from(cards.getName()))
-      await writeFile(path, data);      
-      return this.readAsync(path);
-    } catch (err) {
-      return err;
-    }
   }
   
   // write(filePath: string, cards: Card[]) {
